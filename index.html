@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PARALLAX | Beyond The Horizon</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #080d19;
+    color: white;
+    font-family: Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 22px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    background: rgba(5, 10, 25, 0.45);
+    backdrop-filter: blur(12px);
+}
+
+.logo {
+    color: #70f7ff;
+    font-size: 23px;
+    font-weight: 900;
+    letter-spacing: 4px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 22px;
+    font-size: 13px;
+}
+
+nav a:hover {
+    color: #70f7ff;
+}
+
+.hero {
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow: hidden;
+    background: linear-gradient(#101c43, #354c7c 55%, #e88c91);
+}
+
+.layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.stars {
+    background-image:
+      radial-gradient(white 1px, transparent 1px),
+      radial-gradient(#8deaff 1px, transparent 1px);
+    background-size: 75px 75px, 115px 115px;
+    background-position: 0 0, 35px 40px;
+    opacity: .65;
+}
+
+.moon {
+    position: absolute;
+    width: 115px;
+    height: 115px;
+    background: #fff0ce;
+    border-radius: 50%;
+    top: 19%;
+    right: 17%;
+    box-shadow: 0 0 60px #ffbda8;
+}
+
+.mountain {
+    position: absolute;
+    bottom: -2px;
+    width: 0;
+    height: 0;
+    border-left: 55vw solid transparent;
+    border-right: 55vw solid transparent;
+}
+
+.mountain.back {
+    left: -25%;
+    border-bottom: 42vh solid #26385d;
+}
+
+.mountain.front {
+    right: -28%;
+    border-bottom: 32vh solid #121d37;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 5;
+    padding: 30px 20px;
+    transform: translateY(-15px);
+}
+
+.tag {
+    color: #8efaff;
+    letter-spacing: 5px;
+    font-size: 12px;
+    margin-bottom: 24px;
+}
+
+h1 {
+    font-size: clamp(42px, 9vw, 100px);
+    line-height: 1;
+    letter-spacing: -3px;
+    text-shadow: 0 5px 35px #09132c;
+}
+
+h1 span {
+    color: #83f7ff;
+}
+
+.hero-content p {
+    max-width: 520px;
+    margin: 25px auto;
+    line-height: 1.8;
+    color: #e1e7ff;
+}
+
+.button {
+    display: inline-block;
+    padding: 15px 28px;
+    border: 1px solid #83f7ff;
+    color: #83f7ff;
+    text-decoration: none;
+    letter-spacing: 2px;
+    font-size: 12px;
+    transition: .3s;
+}
+
+.button:hover {
+    background: #83f7ff;
+    color: #10182c;
+    box-shadow: 0 0 30px #83f7ff70;
+}
+
+.scroll {
+    position: absolute;
+    bottom: 25px;
+    z-index: 5;
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: white;
+}
+
+section.content {
+    padding: 110px 8%;
+    text-align: center;
+    position: relative;
+}
+
+.eyebrow {
+    color: #79f6ff;
+    letter-spacing: 4px;
+    font-size: 12px;
+    margin-bottom: 18px;
+}
+
+h2 {
+    font-size: clamp(32px, 6vw, 58px);
+    margin-bottom: 25px;
+}
+
+.description {
+    color: #aab7d1;
+    max-width: 650px;
+    line-height: 1.9;
+    margin: auto;
+}
+
+.world {
+    background: linear-gradient(180deg, #080d19, #111f37);
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+    margin-top: 55px;
+}
+
+.card {
+    padding: 35px 25px;
+    background: #ffffff08;
+    border: 1px solid #8bf6ff25;
+    border-radius: 12px;
+    text-align: left;
+    transition: transform .3s, border-color .3s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    border-color: #83f7ff;
+}
+
+.icon {
+    font-size: 35px;
+    margin-bottom: 22px;
+}
+
+.card h3 {
+    margin-bottom: 14px;
+    color: #91f7ff;
+}
+
+.card p {
+    color: #aab7d1;
+    line-height: 1.8;
+    font-size: 14px;
+}
+
+.parallax-banner {
+    min-height: 65vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 60px 20px;
+    background:
+      radial-gradient(ellipse at 50% 100%, #245e81, transparent 55%),
+      linear-gradient(135deg, #10172f, #182e4c, #10172f);
+    background-attachment: fixed;
+    position: relative;
+    overflow: hidden;
+}
+
+.banner-text {
+    position: relative;
+    z-index: 2;
+}
+
+.banner-text h2 {
+    font-size: clamp(36px, 7vw, 75px);
+}
+
+.banner-text p {
+    color: #b7d6e7;
+    margin-bottom: 30px;
+}
+
+.journey {
+    background: linear-gradient(#111f37, #080d19);
+}
+
+.steps {
+    max-width: 700px;
+    margin: 50px auto 0;
+    text-align: left;
+}
+
+.step {
+    padding: 25px;
+    margin: 18px 0;
+    border-left: 2px solid #83f7ff;
+    background: #ffffff06;
+}
+
+.step small {
+    color: #83f7ff;
+    letter-spacing: 3px;
+}
+
+.step h3 {
+    margin: 12px 0;
+}
+
+.step p {
+    color: #aab7d1;
+    line-height: 1.7;
+}
+
+footer {
+    padding: 35px 20px;
+    text-align: center;
+    color: #8b9ab8;
+    border-top: 1px solid #ffffff15;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+.reveal {
+    opacity: 0;
+    transform: translateY(35px);
+    transition: opacity .8s ease, transform .8s ease;
+}
+
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 700px) {
+    nav {
+        padding: 18px 5%;
+    }
+
+    .logo {
+        font-size: 18px;
+        letter-spacing: 2px;
+    }
+
+    nav a {
+        margin-left: 10px;
+        font-size: 11px;
+    }
+
+    .moon {
+        width: 75px;
+        height: 75px;
+        right: 12%;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    section.content {
+        padding: 85px 7%;
+    }
+
+    .parallax-banner {
+        background-attachment: scroll;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *, *::before, *::after {
+        transition-duration: .01ms !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">AETHER.</div>
+    <div>
+        <a href="#home">HOME</a>
+        <a href="#world">EXPLORE</a>
+        <a href="#journey">JOURNEY</a>
+    </div>
+</nav>
+
+<header class="hero" id="home">
+    <div class="layer stars" data-speed="0.15"></div>
+    <div class="layer" data-speed="0.25">
+        <div class="moon"></div>
+    </div>
+    <div class="layer mountain back" data-speed="0.4"></div>
+    <div class="layer mountain front" data-speed="0.65"></div>
+
+    <div class="hero-content reveal">
+        <div class="tag">A JOURNEY BEYOND LIMITS</div>
+        <h1>FIND YOUR<br><span>HORIZON.</span></h1>
+        <p>
+            Step into a world where the sky meets imagination.
+            Scroll through a living landscape shaped by motion,
+            depth and discovery.
+        </p>
+        <a href="#world" class="button">BEGIN EXPLORATION ↗</a>
+    </div>
+
+    <div class="scroll">↓ &nbsp; SCROLL TO DISCOVER</div>
+</header>
+
+<section class="content world" id="world">
+    <div class="reveal">
+        <div class="eyebrow">01 / THE EXPERIENCE</div>
+        <h2>A World in Layers</h2>
+        <p class="description">
+            Every scroll reveals another dimension. Backgrounds,
+            landscapes and content move at different speeds to
+            create an immersive sense of depth.
+        </p>
+    </div>
+
+    <div class="cards">
+        <article class="card reveal">
+            <div class="icon">🌌</div>
+            <h3>Infinite Space</h3>
+            <p>Explore a digital universe where distant stars
+            and layered skies create a sense of endless possibility.</p>
+        </article>
+
+        <article class="card reveal">
+            <div class="icon">⛰️</div>
+            <h3>Living Landscapes</h3>
+            <p>Discover depth through moving scenery, atmospheric
+            gradients and carefully balanced visual elements.</p>
+        </article>
+
+        <article class="card reveal">
+            <div class="icon">✨</div>
+            <h3>Fluid Motion</h3>
+            <p>Experience smooth scrolling, subtle transitions
+            and interactive details designed for every screen.</p>
+        </article>
+    </div>
+</section>
+
+<section class="parallax-banner" id="discovery">
+    <div class="banner-text reveal">
+        <div class="eyebrow">02 / BEYOND THE ORDINARY</div>
+        <h2>Keep Looking Up.</h2>
+        <p>The best journeys begin with curiosity.</p>
+        <a href="#journey" class="button">CONTINUE THE JOURNEY ↗</a>
+    </div>
+</section>
+
+<section class="content journey" id="journey">
+    <div class="reveal">
+        <div class="eyebrow">03 / YOUR ADVENTURE</div>
+        <h2>The Journey Continues</h2>
+        <p class="description">
+            Great experiences are built one discovery at a time.
+            Keep moving forward and see where the horizon takes you.
+        </p>
+    </div>
+
+    <div class="steps">
+        <div class="step reveal">
+            <small>STEP 01</small>
+            <h3>Imagine</h3>
+            <p>Start with a vision that takes you beyond the familiar.</p>
+        </div>
+
+        <div class="step reveal">
+            <small>STEP 02</small>
+            <h3>Explore</h3>
+            <p>Move through new perspectives and uncover hidden details.</p>
+        </div>
+
+        <div class="step reveal">
+            <small>STEP 03</small>
+            <h3>Discover</h3>
+            <p>Reach new horizons and create your own extraordinary story.</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    AETHER © 2026 — DESIGNED FOR THE CURIOUS
+</footer>
+
+<script>
+const layers = document.querySelectorAll("[data-speed]");
+
+function moveLayers() {
+    const scrollY = window.scrollY;
+
+    layers.forEach(layer => {
+        const speed = Number(layer.dataset.speed);
+        layer.style.transform = `translate3d(0, ${scrollY * speed}px, 0)`;
+    });
+}
+
+let ticking = false;
+
+window.addEventListener("scroll", () => {
+    if (!ticking) {
+        window.requestAnimationFrame(() => {
+            moveLayers();
+            ticking = false;
+        });
+        ticking = true;
+    }
+}, { passive: true });
+
+const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+            observer.unobserve(entry.target);
+        }
+    });
+}, { threshold: 0.15 });
+
+document.querySelectorAll(".reveal").forEach(element => {
+    observer.observe(element);
+});
+
+moveLayers();
+</script>
+
+</body>
+</html>
