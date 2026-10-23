@@ -112,9 +112,21 @@ h1{letter-spacing:-2px}
 <div>Independent student design concept · Not the official website</div>
 </footer>
 <script>
-window.addEventListener('scroll',()=>{
-const stars=document.querySelector('.stars');
-if(stars) stars.style.transform=`translateY(${window.scrollY*.18}px)`;
+const hero = document.querySelector('.hero');
+const orbit = document.querySelector('.orbit');
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  if (hero) {
+    hero.style.backgroundPositionY = `${y * 0.35}px`;
+  }
+
+  if (orbit) {
+    orbit.style.transform = `translateY(${y * 0.25}px) rotate(${y * 0.08}deg)`;
+  }
+
+  if (stars) {
+    stars.style.transform = `translateY(${y * 0.5}px)`;
+  }
 });
 </script>
 </body>
